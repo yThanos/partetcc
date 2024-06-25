@@ -7,3 +7,5 @@
 ## - multipoints :heavy_multiplication_x:
 
 #### ps. isso fica pra outro momento, por hora linkar aos itens, recomendar e expor no mapa
+
+- multipolygons pode ser um ```list<list<list<double>>> -> polygon[]``` da pra buildar com gf

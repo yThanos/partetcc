@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Polygon;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,8 +48,29 @@ public class MapController {
     return maps;
   }
 
+  @PostMapping("/addMP")
+  public void addMultiPolig(@RequestBody MultiPoli mp) {
+      GeometryFactory gf = new GeometryFactory();
+      Polygon[] polygons = new Polygon[mp.polygons().size()];
+      for (int i = 0; i < mp.polygons().size(); i++) {
+        List<List<Double>> polygon = mp.polygons().get(i);
+        Coordinate[] coords = new Coordinate[polygon.size()];
+        for (int j = 0; j < polygon.size(); j++) {
+          List<Double> point = polygon.get(j);
+          coords[j] = new Coordinate(point.get(0), point.get(1));
+        }
+        polygons[i] = gf.createPolygon(coords);
+      }
+      System.out.println(polygons);
+  }
+  
+
   public record MapDTO(
     Long id,
     List<List<Double>> polygon
   ) { }
+
+  public record MultiPoli(
+    List<List<List<Double>>> polygons
+  ) {}
 }
